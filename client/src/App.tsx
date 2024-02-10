@@ -1,19 +1,19 @@
-import { ThemeProvider } from "./components/theme-provider";
-import { Button } from "./components/ui/button";
-import {Book} from "@/components/book.tsx";
+import {ThemeProvider} from "./components/theme-provider";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {BooksList} from "@/components/books-list.tsx";
 
 const queryClient = new QueryClient()
+
 function App() {
-	return (
-		<QueryClientProvider client={queryClient}>
-			<ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-				<div>
-					<Book />
-				</div>
-			</ThemeProvider>
-		</QueryClientProvider>
-	);
+    return (
+        <QueryClientProvider client={queryClient}>
+            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+                <div className={"container flex flex-col my-8"}>
+                    <BooksList/>
+                </div>
+            </ThemeProvider>
+        </QueryClientProvider>
+    );
 }
 
 export default App;
