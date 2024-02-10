@@ -15,7 +15,7 @@ import java.util.List;
 public class BookController {
     private final BookService service;
 
-    @GetMapping("/")
+    @GetMapping
     public List<BookDto> getAll() {
         return service.getAll();
     }
@@ -25,7 +25,7 @@ public class BookController {
         return service.getById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public BookDto create(@RequestBody BookDto dto) {
         return service.create(dto);
     }
