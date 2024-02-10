@@ -1,5 +1,3 @@
-import {useQuery} from "@tanstack/react-query";
-
 import {
     Card,
     CardContent,
@@ -8,21 +6,9 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {BookService} from "@/services/BooksService.ts";
+import {BookType} from "@/types/book.ts";
 
-export function Book() {
-    const id = 2
-    const {data, isPending, isError} = useQuery(
-        {
-            queryFn: () => BookService.getById(id), queryKey: ["get", "book", id]
-        })
-
-    const book = data?.data
-
-    if(isPending) return <div>Loading...</div>
-    if(isError) return <div>error</div>
-    console.log(data)
-
+export function Book({book}:{book: BookType}) {
     return (
         <Card>
             <CardHeader>
