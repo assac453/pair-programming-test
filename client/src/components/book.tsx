@@ -1,5 +1,4 @@
 import {useQuery} from "@tanstack/react-query";
-import {api} from "@/http/api.ts";
 
 import {
     Card,
@@ -9,39 +8,34 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import {BookType} from "@/types/book.ts";
+import {BookService} from "@/services/BooksService.ts";
 
 export function Book() {
-    const data:BookType = {
-        id: 1,
-        author: "Aleksey",
-        title: "Kill neagers",
-        pageCount: 1366,
-        remainCount: 0,
-        yearOfPublishing: "2024"
-    }
+    const id = 2
+    const {data, isPending, isError} = useQuery(
+        {
+            queryFn: () => BookService.getById(id), queryKey: ["get", "book", id]
+        })
 
+    const book = data?.data
 
-    // const {data} = useQuery(
-    //     {
-    //         queryFn: () => api.get("/books/"), queryKey: ["get", "book", "1"]
-    //     })
-    //
-    // console.log(data)
+    if(isPending) return <div>Loading...</div>
+    if(isError) return <div>error</div>
+    console.log(data)
 
     return (
         <Card>
             <CardHeader>
-                <CardTitle>{data.title}</CardTitle>
-                <CardDescription>{data.author}, {data.yearOfPublishing}</CardDescription>
+                <CardTitle>{book?.title}</CardTitle>
+                <CardDescription>{book?.author}, {book?.yearOfPublishing}</CardDescription>
             </CardHeader>
             <CardContent>
-                <p>Remain Count: {data.remainCount}</p>
-                <p>Page Count: {data.pageCount}</p>
+                <p>Remain Count: {book?.remainCount}</p>
+                <p>Page Count: {book?.pageCount}</p>
             </CardContent>
             <CardFooter>
-                <p>{data.id}</p>
-                <p>{data.pageCount}</p>
+                <p>{book?.id}</p>
+                <p>{book?.pageCount}</p>
             </CardFooter>
         </Card>
     )
