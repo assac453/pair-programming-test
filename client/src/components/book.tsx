@@ -12,21 +12,19 @@ import {XIcon} from "lucide-react";
 import {useMutation, useQueryClient} from "@tanstack/react-query";
 import {BookService} from "@/services/BooksService.ts";
 
-export function Book({book}:{book: BookType}) {
+export function Book({book}: { book: BookType }) {
 
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
 
     const {mutate} = useMutation({
-        mutationKey:["delete", "book", book.id],
-        mutationFn: () => BookService.delete(book.id),
-        onSuccess: () => {queryClient.refetchQueries({
-            queryKey:["get", "book", book.id],
-        } )}
+        mutationKey: ["delete", "book", book.id],
+        mutationFn: (id: number) => BookService.delete(id),
+        onSuccess: () => {
+            queryClient.refetchQueries({ queryKey: ['get', 'books'] });
+        }
 
     })
-    const deleteBook = () => {
-        mutate(book.id)
-    }
+    const deleteBook = () => mutate(book.id)
 
 
     return (
@@ -45,7 +43,7 @@ export function Book({book}:{book: BookType}) {
                     className={"absolute top-4 right-4"}
                     onClick={deleteBook}
                 >
-                    <XIcon />
+                    <XIcon/>
                 </Button>
             </CardContent>
             <CardFooter>
