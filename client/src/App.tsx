@@ -7,7 +7,7 @@ const queryClient = new QueryClient()
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+            <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
                 <div className={"container flex flex-col my-8"}>
                     <BooksList/>
                 </div>
