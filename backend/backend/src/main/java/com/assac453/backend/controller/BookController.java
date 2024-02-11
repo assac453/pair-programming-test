@@ -1,5 +1,6 @@
 package com.assac453.backend.controller;
 
+import com.assac453.backend.dto.BookCreateDto;
 import com.assac453.backend.dto.BookDto;
 import com.assac453.backend.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +27,12 @@ public class BookController {
     }
 
     @PostMapping
-    public BookDto create(@RequestBody BookDto dto) {
+    public BookDto create(@RequestBody BookCreateDto dto) {
         return service.create(dto);
     }
 
     @PutMapping("/{id}")
-    public BookDto update(@PathVariable Integer id, @RequestBody BookDto dto) {
+    public BookDto update(@PathVariable Integer id, @RequestBody BookCreateDto dto) {
         return service.update(id, dto);
     }
 

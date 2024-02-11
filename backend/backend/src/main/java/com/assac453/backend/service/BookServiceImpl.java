@@ -1,8 +1,10 @@
 package com.assac453.backend.service;
 
+import com.assac453.backend.dto.BookCreateDto;
 import com.assac453.backend.dto.BookDto;
 import com.assac453.backend.entity.Book;
 import com.assac453.backend.repository.BookRepository;
+import com.assac453.backend.util.mapper.DtoMapper;
 import com.assac453.backend.util.mapper.DtoToEntity;
 import com.assac453.backend.util.mapper.EntityToDto;
 import lombok.RequiredArgsConstructor;
@@ -34,20 +36,24 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDto create(BookDto book) {
-        repository.save(DtoToEntity.dtoToEntity(book));
-        return book;
+    public BookDto create(BookCreateDto book) {
+        BookDto bookDto = DtoMapper.toBookDto(book);
+        Book saved = repository.save(DtoToEntity.dtoToEntity(bookDto));
+        bookDto.setId(saved.getId());
+        return bookDto;
     }
 
     @Override
-    public BookDto update(int id, BookDto book) {
+    public BookDto update(int id, BookCreateDto book) {
         if(!repository.existsById(id)){
             throw new NoSuchElementException("Element not found");
         }
-        Book updated = DtoToEntity.dtoToEntity(book);
+        BookDto bookDto = DtoMapper.toBookDto(book);
+        Book updated = DtoToEntity.dtoToEntity(bookDto);
         updated.setId(id);
         repository.save(updated);
-        return book;
+        bookDto.setId(id);
+        return bookDto;
     }
 
     @Override
