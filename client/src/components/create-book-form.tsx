@@ -36,7 +36,35 @@ type InputProps = {
 		| "remainCount";
 };
 
-export function CreateBookForm() {
+const fields: InputProps[] = [
+	{
+		name: "author",
+		title: "author",
+		placeholder: "author",
+	},
+	{
+		name: "title",
+		title: "title",
+		placeholder: "title",
+	},
+	{
+		name: "yearOfPublishing",
+		title: "yearOfPublishing",
+		placeholder: "yearOfPublishing",
+	},
+	{
+		name: "pageCount",
+		title: "pageCount",
+		placeholder: "pageCount",
+	},
+	{
+		name: "remainCount",
+		title: "remainCount",
+		placeholder: "remainCount",
+	},
+];
+
+export function CreateBookForm({ closeDialog }: { closeDialog: () => void }) {
 	const queryClient = useQueryClient();
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -55,6 +83,7 @@ export function CreateBookForm() {
 		onSuccess() {
 			queryClient.refetchQueries({ queryKey: ["get", "books"] });
 			form.reset();
+			closeDialog();
 		},
 	});
 
@@ -62,38 +91,10 @@ export function CreateBookForm() {
 		createBook(values);
 	}
 
-	const fields: InputProps[] = [
-		{
-			name: "author",
-			title: "author",
-			placeholder: "author",
-		},
-		{
-			name: "title",
-			title: "title",
-			placeholder: "title",
-		},
-		{
-			name: "yearOfPublishing",
-			title: "yearOfPublishing",
-			placeholder: "yearOfPublishing",
-		},
-		{
-			name: "pageCount",
-			title: "pageCount",
-			placeholder: "pageCount",
-		},
-		{
-			name: "remainCount",
-			title: "remainCount",
-			placeholder: "remainCount",
-		},
-	];
-
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-				<div className="flex space-x-6">
+				<div className="flex flex-col space-y-4">
 					{fields.map((inputData) => (
 						<FormField
 							control={form.control}
@@ -110,7 +111,9 @@ export function CreateBookForm() {
 						/>
 					))}
 				</div>
-				<Button type="submit">Create book</Button>
+				<div className="flex justify-end">
+					<Button type="submit">Create</Button>
+				</div>
 			</form>
 		</Form>
 	);
